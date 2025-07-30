@@ -21,6 +21,10 @@
 		F9BD0B692E3821A8006FC83C /* FlightCoorindator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BD0B682E3821A8006FC83C /* FlightCoorindator.swift */; };
 		F9BD0B6B2E38380B006FC83C /* FlightDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BD0B6A2E38380B006FC83C /* FlightDetailsViewModel.swift */; };
 		F9BD0B6D2E383AEA006FC83C /* FlightDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BD0B6C2E383AEA006FC83C /* FlightDetailsViewController.swift */; };
+		F9BD0B702E3A9665006FC83C /* FavoriteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F9BD0B6E2E3A9665006FC83C /* FavoriteModel.xcdatamodeld */; };
+		F9BD0B762E3A96EE006FC83C /* FavoriteFlight+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BD0B742E3A96EE006FC83C /* FavoriteFlight+CoreDataClass.swift */; };
+		F9BD0B772E3A96EE006FC83C /* FavoriteFlight+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BD0B752E3A96EE006FC83C /* FavoriteFlight+CoreDataProperties.swift */; };
+		F9BD0B792E3A9881006FC83C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BD0B782E3A9881006FC83C /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +44,10 @@
 		F9BD0B682E3821A8006FC83C /* FlightCoorindator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightCoorindator.swift; sourceTree = "<group>"; };
 		F9BD0B6A2E38380B006FC83C /* FlightDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailsViewModel.swift; sourceTree = "<group>"; };
 		F9BD0B6C2E383AEA006FC83C /* FlightDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDetailsViewController.swift; sourceTree = "<group>"; };
+		F9BD0B6F2E3A9665006FC83C /* FavoriteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FavoriteModel.xcdatamodel; sourceTree = "<group>"; };
+		F9BD0B742E3A96EE006FC83C /* FavoriteFlight+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteFlight+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F9BD0B752E3A96EE006FC83C /* FavoriteFlight+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteFlight+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		F9BD0B782E3A9881006FC83C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +64,9 @@
 		F9BD0B392E37FAA8006FC83C = {
 			isa = PBXGroup;
 			children = (
+				F9BD0B742E3A96EE006FC83C /* FavoriteFlight+CoreDataClass.swift */,
+				F9BD0B752E3A96EE006FC83C /* FavoriteFlight+CoreDataProperties.swift */,
+				F9BD0B6E2E3A9665006FC83C /* FavoriteModel.xcdatamodeld */,
 				F9BD0B442E37FAA8006FC83C /* CodeChallengeFlightApp */,
 				F9BD0B432E37FAA8006FC83C /* Products */,
 			);
@@ -72,6 +83,7 @@
 		F9BD0B442E37FAA8006FC83C /* CodeChallengeFlightApp */ = {
 			isa = PBXGroup;
 			children = (
+				F9BD0B712E3A969E006FC83C /* CoreData */,
 				F9BD0B672E382190006FC83C /* Coordinator */,
 				F9BD0B5F2E38070E006FC83C /* ViewModel */,
 				F9BD0B5A2E380151006FC83C /* Network */,
@@ -121,6 +133,14 @@
 				F9BD0B682E3821A8006FC83C /* FlightCoorindator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		F9BD0B712E3A969E006FC83C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				F9BD0B782E3A9881006FC83C /* CoreDataManager.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,7 +214,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9BD0B762E3A96EE006FC83C /* FavoriteFlight+CoreDataClass.swift in Sources */,
+				F9BD0B772E3A96EE006FC83C /* FavoriteFlight+CoreDataProperties.swift in Sources */,
 				F9BD0B612E380724006FC83C /* FlightViewModel.swift in Sources */,
+				F9BD0B792E3A9881006FC83C /* CoreDataManager.swift in Sources */,
 				F9BD0B642E380D7B006FC83C /* FlightViewController.swift in Sources */,
 				F9BD0B5C2E380163006FC83C /* FlightResponse.swift in Sources */,
 				F9BD0B6D2E383AEA006FC83C /* FlightDetailsViewController.swift in Sources */,
@@ -205,6 +228,7 @@
 				F9BD0B6B2E38380B006FC83C /* FlightDetailsViewModel.swift in Sources */,
 				F9BD0B482E37FAA8006FC83C /* SceneDelegate.swift in Sources */,
 				F9BD0B5E2E380425006FC83C /* FlightService.swift in Sources */,
+				F9BD0B702E3A9665006FC83C /* FavoriteModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +449,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F9BD0B6E2E3A9665006FC83C /* FavoriteModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F9BD0B6F2E3A9665006FC83C /* FavoriteModel.xcdatamodel */,
+			);
+			currentVersion = F9BD0B6F2E3A9665006FC83C /* FavoriteModel.xcdatamodel */;
+			path = FavoriteModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F9BD0B3A2E37FAA8006FC83C /* Project object */;
 }

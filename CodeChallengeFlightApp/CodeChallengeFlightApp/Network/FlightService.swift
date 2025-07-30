@@ -85,7 +85,7 @@ extension FlightService {
 }
 
 enum Constants {
-    static let keyValue = "6499abb5f04a63beac11b3302e191739"
+    static let keyValue = "b450bedc5d85e12cf41ccf10d448ef75"
     static let accessKey = "access_key"
     static let url = "https://api.aviationstack.com/v1/flights"
     static let flightIata = "flight_iata"

@@ -72,6 +72,28 @@ final class FlightDetailsViewController: UIViewController {
         return view
     }()
     
+    private let favoriteSwitch: UISwitch = {
+       let toggle = UISwitch()
+        toggle.translatesAutoresizingMaskIntoConstraints = false
+        return toggle
+    }()
+    
+    private let favoriteLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Favorite"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let favoriteStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.spacing = 10
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
     init(viewModel: FlightDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -95,6 +117,10 @@ final class FlightDetailsViewController: UIViewController {
         stackView.addArrangedSubview(destLabel)
         stackView.addArrangedSubview(dateLabel)
         stackView.addArrangedSubview(statusLabel)
+        favoriteStack.addArrangedSubview(favoriteSwitch)
+        favoriteStack.addArrangedSubview(favoriteLabel)
+        stackView.addArrangedSubview(favoriteStack)
+        
         view.addSubview(titleLabel)
         view.addSubview(stackView)
         view.addSubview(activityIndicator)
@@ -108,6 +134,7 @@ final class FlightDetailsViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+        favoriteSwitch.addTarget(self, action: #selector(favoriteToggled), for: .valueChanged)
     }
     
     private func listenToViewModel() {
@@ -132,6 +159,8 @@ final class FlightDetailsViewController: UIViewController {
             destLabel.text = "Destination: \(displayableDetailsInfo.arrival)"
             dateLabel.text = "Flight date: \(displayableDetailsInfo.date)"
             statusLabel.text = "Status: \(displayableDetailsInfo.status)"
+            let isFavorite = CoreDataManager.shared.isFavorite(flightNumber: displayableDetailsInfo.flightNumber)
+            favoriteSwitch.isOn = isFavorite
         case .error(let message):
             activityIndicator.stopAnimating()
             showErrorAlert(message)
@@ -145,5 +174,16 @@ final class FlightDetailsViewController: UIViewController {
         )
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    @objc private func favoriteToggled() {
+        guard case let .success(details) = viewModel.state else { return }
+        let flightNumber = details.flightNumber
+        
+        if favoriteSwitch.isOn {
+            CoreDataManager.shared.saveFavoriteFlight(flightNumber: flightNumber)
+        } else {
+            CoreDataManager.shared.deleteFavorite(flightNumber: flightNumber)
+        }
     }
 }
