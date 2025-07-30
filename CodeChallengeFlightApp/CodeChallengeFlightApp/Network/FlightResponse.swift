@@ -9,6 +9,7 @@ import Foundation
 
 struct FlightResponse: Codable {
     let data: [DataFlight]?
+    let pagination: Pagination?
 }
 
 struct DataFlight: Codable {
@@ -27,6 +28,13 @@ struct DataFlight: Codable {
         case airline
         case flight
     }
+}
+
+struct Pagination: Codable {
+    let limit: Int?
+    let offset: Int?
+    let count: Int?
+    let total: Int?
 }
 
 struct DepartureData: Codable {

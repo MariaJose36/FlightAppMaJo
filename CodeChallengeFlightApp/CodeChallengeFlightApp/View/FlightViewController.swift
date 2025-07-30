@@ -28,6 +28,19 @@ final class FlightViewController: UIViewController {
         return view
     }()
     weak var delegate: DetailsNavigationDelegate?
+    private let searchTextField: UITextField = {
+       let textField = UITextField()
+        textField.placeholder = "Enter airport code"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    private let searchButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Search", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +52,8 @@ final class FlightViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .white
         view.addSubview(titleLabel)
+        view.addSubview(searchTextField)
+        view.addSubview(searchButton)
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +62,13 @@ final class FlightViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            searchTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            searchTextField.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor, constant: -8),
+            searchButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
+            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            searchButton.widthAnchor.constraint(equalToConstant: 50),
+            tableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),
@@ -61,6 +82,7 @@ final class FlightViewController: UIViewController {
         let headerView = createHeaderView()
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 40)
         tableView.tableHeaderView = headerView
+        searchButton.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
     }
     
     private func listenToViewModel() {
@@ -124,6 +146,11 @@ final class FlightViewController: UIViewController {
         
         return container
     }
+    
+    @objc private func searchTapped() {
+        let query = searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        viewModel.updateSearchQuery(query)
+    }
 }
 
 extension FlightViewController: UITableViewDataSource, UITableViewDelegate {
@@ -142,6 +169,12 @@ extension FlightViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == displayableInfo.count - 1 {
+            viewModel.fetchFlightInfo()
+        }
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let info = displayableInfo[indexPath.row]
         delegate?.didSelectFlight(with: info.flightNumber)

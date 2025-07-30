@@ -8,7 +8,7 @@ import Combine
 import Foundation
 
 protocol FlightServiceContract: AnyObject {
-    func fetchFlightInfo() -> AnyPublisher<FlightResponse, Error>
+    func fetchFlightInfo(offset: Int, limit: Int, searchQuery: String?) -> AnyPublisher<FlightResponse, Error>
     func fetchFlightDetails(with flightNumber: String) -> AnyPublisher<DataFlight, Error>
 }
 
@@ -22,8 +22,8 @@ final class FlightService: FlightServiceContract {
         self.decoder = decoder
     }
 
-    func fetchFlightInfo() -> AnyPublisher<FlightResponse, any Error> {
-        guard let url = createFlightURL() else {
+    func fetchFlightInfo(offset: Int, limit: Int, searchQuery: String? = nil) -> AnyPublisher<FlightResponse, any Error> {
+        guard let url = createFlightURL(offset: offset, limit: limit, searchQuery: searchQuery) else {
             return Fail(error: Errors.invalidUrl).eraseToAnyPublisher()
         }
         return session.dataTaskPublisher(for: url)
@@ -32,11 +32,21 @@ final class FlightService: FlightServiceContract {
             .eraseToAnyPublisher()
     }
     
-    private func createFlightURL() -> URL? {
-        let queryItems = [URLQueryItem(
+    private func createFlightURL(offset: Int, limit: Int, searchQuery: String? = nil) -> URL? {
+        var queryItems = [URLQueryItem(
             name: Constants.accessKey,
             value: Constants.keyValue
+        ), URLQueryItem(
+            name: Constants.offset,
+            value: String(offset)
+        ), URLQueryItem(
+            name: Constants.limit,
+            value: String(limit)
         )]
+        if let query = searchQuery, !query.isEmpty {
+            queryItems.append(URLQueryItem(name: Constants.depIata, value: query))
+            queryItems.append(URLQueryItem(name: Constants.depIata, value: query))
+        }
         var urlComponents = URLComponents(string: Constants.url)
         urlComponents?.queryItems = queryItems
         return urlComponents?.url
@@ -79,6 +89,10 @@ enum Constants {
     static let accessKey = "access_key"
     static let url = "https://api.aviationstack.com/v1/flights"
     static let flightIata = "flight_iata"
+    static let offset = "offset"
+    static let limit = "limit"
+    static let depIata = "dep_iata"
+    static let arrIata = "arr_iata"
 }
 
 enum Errors: Error {
